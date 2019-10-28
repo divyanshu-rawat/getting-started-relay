@@ -1,11 +1,14 @@
 import createReactClass from "create-react-class";
 import React from "react";
-import ReactDOM from 'react-dom';
+import ReactDOM from "react-dom";
 
 const Hello = createReactClass({
   render: function() {
-    return React.createElement("h3", null, "Hello Webpack!");
+    /* Before introducing babel-loader into project.
+        return React.createElement("h3", null, "Hello Webpack!");
+    */
+    return <h3>Hello Babel!!</h3>;
   }
 });
 
-ReactDOM.render(React.createElement(Hello), document.getElementById("react"));
+ReactDOM.render(<Hello />, document.getElementById("react"));
