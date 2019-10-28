@@ -1,13 +1,11 @@
+import createReactClass from "create-react-class";
+import React from "react";
+import ReactDOM from 'react-dom';
 
-var React = require("react");
-var createReactClass = require('create-react-class');
-var ReactDOM = require("react-dom");
-
-var Hello = createReactClass({
-    render: function(){
-        return React.createElement("h3", null, "Hello React!");
-    }
+const Hello = createReactClass({
+  render: function() {
+    return React.createElement("h3", null, "Hello Webpack!");
+  }
 });
-
 
 ReactDOM.render(React.createElement(Hello), document.getElementById("react"));
