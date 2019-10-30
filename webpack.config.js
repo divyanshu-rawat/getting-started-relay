@@ -1,5 +1,5 @@
 module.exports = {
-  entry: "./public/js/app.js",
+  entry: "./public/app.js",
   output: {
     path: __dirname + "/public",
     filename: "bundle.js"
@@ -8,9 +8,10 @@ module.exports = {
     rules: [
       {
         test: /\.jsx?$/,
-        loader: 'babel-loader',
+        loader: "babel-loader",
         exclude: /node_modules/,
         query: {
+          // To make babel@6 compile ES6 we need es2015 preset.
           presets: ["react", "es2015"]
         }
       }
