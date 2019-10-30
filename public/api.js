@@ -1,5 +1,5 @@
 const API = {
-  async fetchlinks() {
+  async fetchLinks() {
     const links = await fetch("/data/links");
     return links.json();
   }

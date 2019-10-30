@@ -1,11 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import API from "../api";
+import ServerActions from "../Actions/ServerActions";
 
 export default class Main extends React.Component {
   componentDidMount() {
-    API.fetchlinks().then(data => {
-      console.log(data);
+    API.fetchLinks().then(data => {
+      ServerActions.receiveLinks(data);
     });
   }
   render() {
