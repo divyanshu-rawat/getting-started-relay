@@ -1,8 +1,22 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import API from "../api";
 
-export default class Hello extends React.Component {
+export default class Main extends React.Component {
+  componentDidMount() {
+    API.fetchlinks().then(data => {
+      console.log(data);
+    });
+  }
   render() {
-    return <h3>Hello From ES6!!</h3>;
+    return (
+      <React.Fragment>
+        <h3>Links</h3>
+        <ul>
+          <li></li>
+          <li></li>
+        </ul>
+      </React.Fragment>
+    );
   }
 }
