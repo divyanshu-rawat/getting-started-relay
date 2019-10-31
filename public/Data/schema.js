@@ -1,26 +1,32 @@
-import { GraphQLSchema, GraphQLObjectType, GraphQLInt } from "graphql";
+import {
+  GraphQLSchema,
+  GraphQLObjectType,
+  GraphQLString,
+  GraphQLList
+} from "graphql";
 
-let counter = 42;
-const schema = new GraphQLSchema({
-  query: new GraphQLObjectType({
-    name: "Query",
+const Schema = db => {
+  const linkType = new GraphQLObjectType({
+    name: "Link",
     fields: () => ({
-      counter: {
-        type: GraphQLInt,
-        resolve: () => counter
-      }
+      _id: { type: GraphQLString },
+      title: { type: GraphQLString },
+      url: { type: GraphQLString }
     })
-  }),
+  });
 
-  mutation: new GraphQLObjectType({
-    name: "Mutation",
-    fields: () => ({
-      incrementCounter: {
-        type: GraphQLInt,
-        resolve: () => counter++
-      }
+  const schema = new GraphQLSchema({
+    query: new GraphQLObjectType({
+      name: "Query",
+      fields: () => ({
+        links: {
+          type: new GraphQLList(linkType),
+          resolve: () => db.collection("links").find({}).toArray()
+        }
+      })
     })
-  })
-});
+  });
 
-export default schema;
+  return schema;
+};
+export default Schema;

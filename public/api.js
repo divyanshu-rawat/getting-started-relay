@@ -1,7 +1,12 @@
 const API = {
   async fetchLinks() {
-    const links = await fetch("/data/links");
-    return links.json();
+    return await fetch("/graphql", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ query: "{ links { _id,title,url } }" })
+    })
+      .then(res => res.json())
+      .then(res => res.data.links);
   }
 };
 
