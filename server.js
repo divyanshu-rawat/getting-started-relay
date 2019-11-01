@@ -10,19 +10,17 @@ const app = express();
 let database;
 app.use(express.static("public"));
 
-MongoClient.connect(
-  config.mongoUrl,
-  { useUnifiedTopology: true },
-  (err, client) => {
-    if (err) throw err;
-    database = client.db("rgr");
-    app.use(
-      "/graphql",
-      GraphQLHTTP({
-        schema: Schema(database)
-        // graphiql: true
-      })
-    );
-    app.listen(3000);
-  }
-);
+(async () => {
+  const client = await MongoClient.connect(config.mongoUrl, {
+    useUnifiedTopology: true
+  });
+  const db = client.db("rgr");
+  app.use(
+    "/graphql",
+    GraphQLHTTP({
+      schema: Schema(db)
+      // graphiql: true
+    })
+  );
+  app.listen(3000);
+})();

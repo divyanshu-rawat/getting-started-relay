@@ -2,4 +2,4 @@ import React from "react";
 import ReactDOM from "react-dom";
 import Main from "./Components/Main";
 
-ReactDOM.render(<Main />, document.getElementById("react"));
+ReactDOM.render(<Main limit={2} />, document.getElementById("react"));

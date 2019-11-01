@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import API from "../api";
+import PropTypes from "prop-types";
 import ServerActions from "../Actions/ServerActions";
 import LinkStore from "../Stores/LinkStore";
 
@@ -8,12 +9,16 @@ let _getAppState = () => {
   return { links: LinkStore.getAll() };
 };
 
-export default class Main extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = _getAppState();
-    this.onChange = this.onChange.bind(this);
-  }
+class Main extends React.Component {
+  static propTypes = {
+    limit: PropTypes.number
+  };
+
+  static defaultProps = {
+    limit: 2
+  };
+
+  state = _getAppState();
 
   componentDidMount() {
     API.fetchLinks().then(data => {
@@ -26,12 +31,12 @@ export default class Main extends React.Component {
     LinkStore.removeListener("change", this.onChange);
   }
 
-  onChange() {
+  onChange = () => {
     this.setState(_getAppState());
-  }
+  };
 
   render() {
-    const content = this.state.links.map(link => {
+    const content = this.state.links.slice(0, this.props.limit).map(link => {
       return (
         <li key={link._id}>
           <a href={link.url}> {link.title}</a>
@@ -46,3 +51,5 @@ export default class Main extends React.Component {
     );
   }
 }
+
+export default Main;
