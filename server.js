@@ -1,9 +1,13 @@
+import fs from "fs";
 import express from "express";
 import { MongoClient } from "mongodb";
+import config from "./config";
 
+// Graphql imports!
+import { graphql } from "graphql";
 import Schema from "./public/Data/schema";
 import GraphQLHTTP from "express-graphql";
-import config from "./config";
+import { introspectionQuery } from "graphql/utilities";
 
 const app = express();
 
@@ -15,12 +19,25 @@ app.use(express.static("public"));
     useUnifiedTopology: true
   });
   const db = client.db("rgr");
+  const schema = Schema(db);
   app.use(
     "/graphql",
     GraphQLHTTP({
-      schema: Schema(db)
-      // graphiql: true
+      schema
+      //graphiql: true
     })
   );
-  app.listen(3000);
+  app.listen(3000, () => console.log("listening on port 3000"));
+
+  // Generate Schema.json
+
+  const json = await graphql(schema, introspectionQuery);
+  fs.writeFile(
+    "./public/Data/schema.json",
+    JSON.stringify(json, null, 2),
+    err => {
+      if (err) throw err;
+      console.log("Schema Generated!");
+    }
+  );
 })();
